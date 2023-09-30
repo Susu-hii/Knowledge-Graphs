@@ -1,0 +1,52 @@
+# K-Means clustering in the embedding space
+# Perform K-Means clustering on node embeddings
+num_clusters = 3 # Adjust the number of clusters
+kmeans = KMeans(n_clusters=num_clusters, random_state=42)
+cluster_labels = kmeans.fit_predict(embeddings)
+
+# Visualize K-Means clustering in the embedding space with node labels
+plt.figure(figsize=(12, 10))
+plt.scatter(embeddings_2d[:, 0], embeddings_2d[:, 1], c=cluster_labels, cmap=plt.cm.Set1, alpha=0.7)
+
+# Add node labels
+for i, node in enumerate(G.nodes()):
+plt.text(embeddings_2d[i, 0], embeddings_2d[i, 1], node, fontsize=8)
+
+plt.title('K-Means Clustering in Embedding Space with Node Labels')
+
+plt.colorbar(label=”Cluster Label”)
+plt.show()
+
+from sklearn.cluster import KMeans
+
+# Perform K-Means clustering on node embeddings
+num_clusters = 3 # Adjust the number of clusters
+kmeans = KMeans(n_clusters=num_clusters, random_state=42)
+cluster_labels = kmeans.fit_predict(embeddings)
+
+# Visualize clusters
+plt.figure(figsize=(12, 10))
+nx.draw(G, pos, with_labels=True, font_size=10, node_size=700, node_color=cluster_labels, cmap=plt.cm.Set1, edge_color=’gray’, alpha=0.6)
+plt.title('Graph Clustering using K-Means')
+
+plt.show()
+
+
+#DBSCAN
+#Density-Based Clustering algorithms like DBSCAN don’t require a preset number of clusters. 
+#It also identifies outliers as noises. Additionally, it can find arbitrarily sized and arbitrarily shaped clusters quite well. 
+from sklearn.cluster import DBSCAN
+
+# Perform DBSCAN clustering on node embeddings
+dbscan = DBSCAN(eps=1.0, min_samples=2) # Adjust eps and min_samples
+#The eps parameter defines the maximum distance between two samples for one to be considered as in the neighborhood of the other
+#the min_samples parameter determines the minimum number of samples in a neighborhood for a point to be considered as a core point.
+cluster_labels = dbscan.fit_predict(embeddings)
+
+# Visualize clusters
+plt.figure(figsize=(12, 10))
+nx.draw(G, pos, with_labels=True, font_size=10, node_size=700, node_color=cluster_labels, cmap=plt.cm.Set1, edge_color='gray', alpha=0.6)
+plt.title('Graph Clustering using DBSCAN')
+plt.show()
+
+
